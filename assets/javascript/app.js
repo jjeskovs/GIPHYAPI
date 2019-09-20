@@ -79,12 +79,12 @@ $("#buttons-view").on("click", ".giphy", function() {
     
     // code to animate/stop the giffs 
     
-   $("#display").on("click", function() {
+   $("#display").on("click",".gif", function() {
 
         var state = $(this).attr("data-state");
     
         if (state === "still") {
-          $(this).attr("src", $(this).attr("data-animate"));
+          $(this).attr("src", $(this).attr("data-animated"));
           $(this).attr("data-state", "animate");
         } else {
           $(this).attr("src", $(this).attr("data-still"));

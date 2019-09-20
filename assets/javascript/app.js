@@ -1,7 +1,7 @@
 //my apiKey
 var apiKey = "hbuLCrXiCc4bb7xSVC1SQFONfoCfWBwj"
 
-var giffButtons = ["cat", "dog", "crash", "slip", "drunk", "stupid"]; 
+var giffButtons = ["obama", "bush", "cat", "dog", "crash", "slip", "drunk", "stupid"]; 
 
 // this function renders initial buttons
 function renderButtons() {
@@ -22,24 +22,26 @@ function renderButtons() {
 renderButtons();
 
 //this function will add new giffs to an array
-$("#add-giff").on("click", function(event){
+$("#form-id").on("click", function(event){
     event.preventDefault();   // stops the page from refreshing
-    
+    // debugger;       
     var newGiff = $("#add-giff").val().trim(); // grabs the value from search bar
-    
-    newGiff.push(giffButtons); // adds new item to an array
+    console.log(newGiff);
+    giffButtons.push(newGiff); // adds new item to an array
     
     renderButtons(); //calls the function responsible to add the button to the screen
-
+    $("#add-giff").val("");
+    // console.log(this)
 });
 
-$(".giphy").on("click", function() {
-    console.log(this)
+$("#buttons-view").on("click", ".giphy", function() {
+    // debugger;
     // getting the button data-value
     var selection = $(this).attr("data-giphy");
+    console.log(selection)  
     
     //constracting URL 
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q="+ selection + "&api_key=" + apiKey + "&limit10";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q="+ selection + "&api_key=" + apiKey + "&limit=10";
     
     // Performing an Ajax call 
     $.ajax({
@@ -57,8 +59,13 @@ $(".giphy").on("click", function() {
         var selectionDiv = $("<div>");
         var p = $("<p>").text("Rating: " + results[i].rating)
         var giffDiv = $("<img>");
-        giffDiv.attr("src", results[i].images.fixed_height_still.url);
-        giffDiv.attr("data-value", results[i]) // trial
+        giffDiv.attr("src", results[i].images.fixed_height.url); // if you add _still will be a still image 
+        // giffDiv.attr("data-value", results[i]) // trial for still/animate
+        giffDiv.attr("data-animated", results[i].images.fixed_height.url); 
+        giffDiv.attr("data-still", results[i].images.fixed_height_still.url); 
+        giffDiv.attr("data-state", "still"); 
+        
+        selectionDiv.attr("src", results[i].images.fixed_still) // trial for still/animate
         selectionDiv.append(p);
         selectionDiv.append(giffDiv);
         
@@ -72,17 +79,17 @@ $(".giphy").on("click", function() {
     // code to animate the giffs 
     
    $(".gif").on("click", function() {
-    alert("I was clicked")    
+//     alert("I was clicked")    
     // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
-        // var state = $(this).attr("data-state");
+        var state = $(this).attr("data-state");
         // // If the clicked image's state is still, update its src attribute to what its data-animate value is.
         // // Then, set the image's data-state to animate
         // // Else set src to the data-still value
-        // if (state === "still") {
-        //   $(this).attr("src", $(this).attr("data-animate"));
-        //   $(this).attr("data-state", "animate");
-        // } else {
-        //   $(this).attr("src", $(this).attr("data-still"));
-        //   $(this).attr("data-state", "still");
-        // }
+        if (state === "still") {
+          $(this).attr("src", $(this).attr("data-animate"));
+          $(this).attr("data-state", "animate");
+        } else {
+          $(this).attr("src", $(this).attr("data-still"));
+          $(this).attr("data-state", "still");
+        }
       })

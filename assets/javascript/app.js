@@ -1,7 +1,7 @@
 //my apiKey
 var apiKey = "hbuLCrXiCc4bb7xSVC1SQFONfoCfWBwj"
 
-var giffButtons = ["obama", "bush", "cat", "dog", "crash", "slip", "drunk", "stupid"]; 
+var giffButtons = ["Obama", "George W Bush", "Cat", "Dog", "Goofy", "Donald Duck", "Aladin"]; 
 
 // this function renders initial buttons
 function renderButtons() {
@@ -22,7 +22,7 @@ function renderButtons() {
 renderButtons();
 
 //this function will add new giffs to an array
-$("#form-id").on("click", function(event){
+$("#form-id").submit(function(event){
     event.preventDefault();   // stops the page from refreshing
     // debugger;       
     var newGiff = $("#add-giff").val().trim(); // grabs the value from search bar
@@ -59,32 +59,30 @@ $("#buttons-view").on("click", ".giphy", function() {
         var selectionDiv = $("<div>");
         var p = $("<p>").text("Rating: " + results[i].rating)
         var giffDiv = $("<img>");
-        giffDiv.attr("src", results[i].images.fixed_height.url); // if you add _still will be a still image 
-        // giffDiv.attr("data-value", results[i]) // trial for still/animate
-        giffDiv.attr("data-animated", results[i].images.fixed_height.url); 
+        giffDiv.attr("src", results[i].images.fixed_height_still.url); // if you add _still will be a still image 
         giffDiv.attr("data-still", results[i].images.fixed_height_still.url); 
+        giffDiv.attr("data-animated", results[i].images.fixed_height.url); 
         giffDiv.attr("data-state", "still"); 
+        giffDiv.addClass("gif");
         
-        selectionDiv.attr("src", results[i].images.fixed_still) // trial for still/animate
-        selectionDiv.append(p);
+        // selectionDiv.attr("src", results[i].images.fixed_still) // trial for still/animate
         selectionDiv.append(giffDiv);
+        selectionDiv.append(p);
         
         $("#display").prepend(selectionDiv);
+        
 
      }
 
    });
 });
     
-    // code to animate the giffs 
+    // code to animate/stop the giffs 
     
-   $(".gif").on("click", function() {
-//     alert("I was clicked")    
-    // The attr jQuery method allows us to get or set the value of any attribute on our HTML element
+   $("#display").on("click", function() {
+
         var state = $(this).attr("data-state");
-        // // If the clicked image's state is still, update its src attribute to what its data-animate value is.
-        // // Then, set the image's data-state to animate
-        // // Else set src to the data-still value
+    
         if (state === "still") {
           $(this).attr("src", $(this).attr("data-animate"));
           $(this).attr("data-state", "animate");

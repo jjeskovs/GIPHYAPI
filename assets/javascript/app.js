@@ -41,7 +41,7 @@ $("#buttons-view").on("click", ".giphy", function() {
     console.log(selection)  
     
     //constracting URL 
-    var queryURL = "https://api.giphy.com/v1/gifs/search?q="+ selection + "&api_key=" + apiKey + "&limit=10";
+    var queryURL = "https://api.giphy.com/v1/gifs/search?q="+ selection + "&api_key=" + apiKey + "&limit=10&offset=10";
     
     // Performing an Ajax call 
     $.ajax({
